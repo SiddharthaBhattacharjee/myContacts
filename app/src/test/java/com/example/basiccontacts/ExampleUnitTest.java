@@ -1,4 +1,4 @@
-package com.example.mycontacts;
+package com.example.basiccontacts;
 
 import org.junit.Test;
 
