@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +18,7 @@ import java.util.List;
 
 public class myAdapter extends ArrayAdapter<String> {
     private List<String> dat;
+    public static final String key = "com.example.basiccontacts.myAdapter.key_6392";
 
     public myAdapter(@NonNull Context context, int resource, @NonNull List<String> dat) {
         super(context, resource, dat);
@@ -60,6 +62,15 @@ public class myAdapter extends ArrayAdapter<String> {
                 getContext().startActivity(intent);
             }
         });
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent_2 = new Intent(getContext(),MainActivity2.class);
+                intent_2.putExtra(key,temp+"/"+position);
+                getContext().startActivity(intent_2);
+            }
+        });
+
         return convertView;
     }
 }
