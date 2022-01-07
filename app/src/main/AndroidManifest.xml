@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.basiccontacts">
+
     <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,10 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BasicContacts">
         <activity
+            android:name=".MainActivity2"
+            android:exported="false"
+            android:label="View Contact"
+            android:parentActivityName=".MainActivity"/>
+        <activity
             android:name=".Main3Activity"
             android:exported="false"
             android:label="Add Contact"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
