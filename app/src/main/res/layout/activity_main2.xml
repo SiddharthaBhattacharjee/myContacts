@@ -21,6 +21,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/secdp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -36,6 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:onClick="EditName"
             android:text="Siddhartha Bhattacharjee"
             android:textSize="24sp" />
 
@@ -71,6 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="26dp"
                 android:layout_gravity="right"
+                android:onClick="EditPhn"
                 app:srcCompat="@drawable/editicon" />
 
         </FrameLayout>
@@ -107,6 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="26dp"
                 android:layout_gravity="right"
+                android:onClick="EditEml"
                 app:srcCompat="@drawable/editicon" />
         </FrameLayout>
 
