@@ -13,6 +13,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     public static final List<String> data = new ArrayList<String>();
     ListView listview;
+    public static boolean reloadNedeed = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,9 +22,20 @@ public class MainActivity extends AppCompatActivity {
         myAdapter ad = new myAdapter(this,R.layout.mylayout,data);
         listview.setAdapter(ad);
     }
+    @Override
+    public void onResume() {
+        super.onResume();
 
+        if (this.reloadNedeed)
+            this.reloadProfileData();
+
+        this.reloadNedeed = false; // do not reload anymore, unless I tell you so...
+    }
     public void add(View view){
         Intent i = new Intent(this,Main3Activity.class);
         startActivity(i);
+    }
+    public void reloadProfileData(){
+        recreate();
     }
 }
