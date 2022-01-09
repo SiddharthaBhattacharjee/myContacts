@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BasicContacts</string>
+    <string name="edit_general_select_or_take_picture">dpImage</string>
 </resources>

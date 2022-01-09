@@ -71,10 +71,17 @@ public class MainActivity2 extends AppCompatActivity {
                         final Bundle extras = data.getExtras();
 //                        Bitmap ProfilePic = extras.getParcelable("data");
                         Log.i("data", String.valueOf(data));
+                        String t1 = String.valueOf(data);
+                        String[] t2 = t1.split("/",-1);
+                        String t3 = t2[4];
+                        String[] t4 = t3.split(" ",-1);
+                        String t5 = t4[0];
+                        Log.i("res : ",t5);
                         Log.i("extras", String.valueOf(extras));
 //                        dp.setImageBitmap(ProfilePic);
-                        File image = new  File(Environment.getExternalStorageDirectory() +"/Frag_list/"+extras+".jpg");
+                        File image = new  File(Environment.getExternalStorageDirectory() +"/Frag_list/"+t5+".jpg");
                         Log.i("image", String.valueOf(image));
+                        Log.i("Exists",String.valueOf(image.exists()));
                         if(image.exists()){
                             dp.setImageBitmap(BitmapFactory.decodeFile(image.getAbsolutePath()));/////////////setting image in imageview
                         }
@@ -133,10 +140,25 @@ private void requestStoragePermission() {
 //        intent.putExtra("aspectY", 1);
 //        intent.putExtra("return-data", true);
 //        someActivityResultLauncher.launch(intent);
-        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        photoPickerIntent.setType("image/*");
-//        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
-        someActivityResultLauncher.launch(photoPickerIntent);
+
+
+//        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+//        photoPickerIntent.setType("image/*");
+//        someActivityResultLauncher.launch(photoPickerIntent);
+
+        Intent pickIntent = new Intent();
+        pickIntent.setType("image/*");
+        pickIntent.setAction(Intent.ACTION_GET_CONTENT);
+
+        Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        String pickTitle = this.getResources().getString(R.string.edit_general_select_or_take_picture); // Or
+        // get
+        // from
+        // strings.xml
+        Intent chooserIntent = Intent.createChooser(pickIntent, pickTitle);
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] { takePhotoIntent });
+        someActivityResultLauncher.launch(chooserIntent);
     }
 
     public void setdp(View view){
