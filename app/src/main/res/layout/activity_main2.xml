@@ -22,15 +22,13 @@
 
 
         <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/profile_image"
             android:layout_width="96dp"
             android:layout_height="96dp"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/dpicon"
-            android:onClick="setdp"
-            app:civ_border_width="2dp"
-            app:civ_border_color="#FF000000"/>
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp" />
 
         <TextView
             android:id="@+id/NameD"
@@ -134,6 +132,14 @@
                 android:layout_weight="1"
                 android:onClick="makeEmail"
                 app:srcCompat="@drawable/mail" />
+
+            <ImageButton
+                android:id="@+id/imageButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="sendsms"
+                app:srcCompat="@drawable/smsicon" />
 
         </LinearLayout>
 

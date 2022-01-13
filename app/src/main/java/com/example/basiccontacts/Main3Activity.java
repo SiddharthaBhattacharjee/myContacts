@@ -2,6 +2,7 @@ package com.example.basiccontacts;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -28,7 +29,18 @@ public class Main3Activity extends AppCompatActivity {
         }
         else {
             String d = n + "/" + e + "/" + p;
-            MainActivity.data.add(d);
+            //MainActivity.data.add(d);
+            SharedPreferences sp = getSharedPreferences("contacts",MODE_PRIVATE);
+            SharedPreferences.Editor ed = sp.edit();
+            if("Empty".equals(sp.getString("data","Empty"))){
+                ed.putString("data",d);
+                ed.apply();
+            }
+            else{
+                String di = sp.getString("data",null);
+                ed.putString("data",di+","+d);
+                ed.apply();
+            }
             Toast.makeText(this, "Saved Successfully", Toast.LENGTH_SHORT).show();
         }
     }
