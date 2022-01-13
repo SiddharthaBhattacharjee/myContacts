@@ -3,6 +3,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listview = findViewById(R.id.mylv);
+        SharedPreferences sp = getSharedPreferences("contacts",MODE_PRIVATE);
+        String spdata = sp.getString("data",null);
+        if(spdata != null){
+            data.clear();
+            String[] spdataspl = spdata.split(",",-1);
+            for(String a:spdataspl){
+                data.add(a);
+            }
+        }
         myAdapter ad = new myAdapter(this,R.layout.mylayout,data);
         listview.setAdapter(ad);
     }
@@ -26,8 +36,18 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
-        if (this.reloadNedeed)
+        if (this.reloadNedeed){
             this.reloadProfileData();
+            SharedPreferences sp = getSharedPreferences("contacts",MODE_PRIVATE);
+            String spdata = sp.getString("data",null);
+            if(spdata != null){
+                data.clear();
+                String[] spdataspl = spdata.split(",",-1);
+                for(String a:spdataspl){
+                    data.add(a);
+                }
+            }
+        }
 
         this.reloadNedeed = false; // do not reload anymore, unless I tell you so...
     }

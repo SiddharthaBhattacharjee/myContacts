@@ -1,40 +1,24 @@
 package com.example.basiccontacts;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
+import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.provider.Settings;
+import android.telephony.SmsManager;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity2 extends AppCompatActivity {
     TextView PhV;
@@ -58,128 +42,7 @@ public class MainActivity2 extends AppCompatActivity {
         EmV.setText(dats[1]);
         PhV.setText(dats[2]);
     }
-    //here
-    ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @RequiresApi(api = Build.VERSION_CODES.M)
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        // There are no request codes
-                        Intent data = result.getData();
-                        final Bundle extras = data.getExtras();
-//                        Bitmap ProfilePic = extras.getParcelable("data");
-                        Log.i("data", String.valueOf(data));
-                        String t1 = String.valueOf(data);
-                        String[] t2 = t1.split("/",-1);
-                        String t3 = t2[4];
-                        String[] t4 = t3.split(" ",-1);
-                        String t5 = t4[0];
-                        Log.i("res : ",t5);
-                        Log.i("extras", String.valueOf(extras));
-//                        dp.setImageBitmap(ProfilePic);
-                        File image = new  File(Environment.getExternalStorageDirectory() +"/Frag_list/"+t5+".jpg");
-                        Log.i("image", String.valueOf(image));
-                        Log.i("Exists",String.valueOf(image.exists()));
-                        if(image.exists()){
-                            dp.setImageBitmap(BitmapFactory.decodeFile(image.getAbsolutePath()));/////////////setting image in imageview
-                        }
-                    }
-                }
-            });
-    //here
-private void requestStoragePermission() {
-    final String[] permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
-    if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-        ActivityCompat.requestPermissions(this, permissions, 1000);
-        return;
-    }
-}
-//here
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1000) {
-            if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                loadImageInImageview();
-            } else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Allow permission.")
-                        .setMessage("Please....")
-                        .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                Intent intent = new Intent();
-                                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package", getPackageName(), null);
-                                intent.setData(uri);
-                                startActivity(intent);
-                            }
-                        })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                            }
-                        }).show();
-            }
-        }
-    }
-//here
-    private void loadImageInImageview() {
-//        Toast.makeText(this, "DP CHANGE OPTION OPENING...", Toast.LENGTH_SHORT).show();
-//        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-//        intent.setType("image/*");
-//        intent.putExtra("crop", "true");
-//        intent.putExtra("scale", true);
-//        intent.putExtra("outputX", 256);
-//        intent.putExtra("outputY", 256);
-//        intent.putExtra("aspectX", 1);
-//        intent.putExtra("aspectY", 1);
-//        intent.putExtra("return-data", true);
-//        someActivityResultLauncher.launch(intent);
 
-
-//        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-//        photoPickerIntent.setType("image/*");
-//        someActivityResultLauncher.launch(photoPickerIntent);
-
-        Intent pickIntent = new Intent();
-        pickIntent.setType("image/*");
-        pickIntent.setAction(Intent.ACTION_GET_CONTENT);
-
-        Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-        String pickTitle = this.getResources().getString(R.string.edit_general_select_or_take_picture); // Or
-        // get
-        // from
-        // strings.xml
-        Intent chooserIntent = Intent.createChooser(pickIntent, pickTitle);
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] { takePhotoIntent });
-        someActivityResultLauncher.launch(chooserIntent);
-    }
-
-    public void setdp(View view){
-//        Toast.makeText(this, "DP CHANGE OPTION OPENING...", Toast.LENGTH_SHORT).show();
-//        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-//        intent.setType("image/*");
-//        intent.putExtra("crop", "true");
-//        intent.putExtra("scale", true);
-//        intent.putExtra("outputX", 256);
-//        intent.putExtra("outputY", 256);
-//        intent.putExtra("aspectX", 1);
-//        intent.putExtra("aspectY", 1);
-//        intent.putExtra("return-data", true);
-//        someActivityResultLauncher.launch(intent);
-//        startActivityForResult(intent, 1);
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-            requestStoragePermission();
-        } else {
-            loadImageInImageview();
-        }
-    }
     public void makeCall(View view){
         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel",dats[2], null));
         startActivity(intent);
@@ -192,7 +55,25 @@ private void requestStoragePermission() {
     }
     public void DelCon(View view){
         int p = Integer.parseInt(dats[3]);
-        MainActivity.data.remove(p);
+        List<String> data2 = MainActivity.data;
+        data2.remove(p);
+        StringBuilder tms = new StringBuilder();
+        if(!data2.isEmpty()){
+            for(String ts : data2){
+                tms.append(ts+",");
+            }
+            tms.deleteCharAt(tms.length()-1);
+            SharedPreferences sp = getSharedPreferences("contacts",MODE_PRIVATE);
+            SharedPreferences.Editor ed = sp.edit();
+            ed.putString("data",tms.toString());
+            ed.apply();
+        }
+        else{
+            SharedPreferences sp = getSharedPreferences("contacts",MODE_PRIVATE);
+            SharedPreferences.Editor ed = sp.edit();
+            ed.putString("data",null);
+            ed.apply();
+        }
         MainActivity.reloadNedeed = true;
         finish();
     }
@@ -211,6 +92,15 @@ private void requestStoragePermission() {
                 int p = Integer.parseInt(dats[3]);
                 String d = dats[0]+"/"+dats[1]+"/"+t+"/"+dats[3];
                 MainActivity.data.set(p,d);
+                StringBuilder tms = new StringBuilder();
+                for(String ts : MainActivity.data){
+                    tms.append(ts+",");
+                }
+                tms.deleteCharAt(tms.length()-1);
+                SharedPreferences sp = getSharedPreferences("contacts",MODE_PRIVATE);
+                SharedPreferences.Editor ed = sp.edit();
+                ed.putString("data",tms.toString());
+                ed.apply();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -238,6 +128,15 @@ private void requestStoragePermission() {
                 int p = Integer.parseInt(dats[3]);
                 String d = dats[0]+"/"+t+"/"+dats[2]+"/"+dats[3];
                 MainActivity.data.set(p,d);
+                StringBuilder tms = new StringBuilder();
+                for(String ts : MainActivity.data){
+                    tms.append(ts+",");
+                }
+                tms.deleteCharAt(tms.length()-1);
+                SharedPreferences sp = getSharedPreferences("contacts",MODE_PRIVATE);
+                SharedPreferences.Editor ed = sp.edit();
+                ed.putString("data",tms.toString());
+                ed.apply();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -265,6 +164,15 @@ private void requestStoragePermission() {
                 int p = Integer.parseInt(dats[3]);
                 String d = t+"/"+dats[1]+"/"+dats[2]+"/"+dats[3];
                 MainActivity.data.set(p,d);
+                StringBuilder tms = new StringBuilder();
+                for(String ts : MainActivity.data){
+                    tms.append(ts+",");
+                }
+                tms.deleteCharAt(tms.length()-1);
+                SharedPreferences sp = getSharedPreferences("contacts",MODE_PRIVATE);
+                SharedPreferences.Editor ed = sp.edit();
+                ed.putString("data",tms.toString());
+                ed.apply();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -276,5 +184,15 @@ private void requestStoragePermission() {
 
         builder.show();
         MainActivity.reloadNedeed = true;
+    }
+    public void sendsms(View view){
+
+        Intent sInt = new Intent(Intent.ACTION_VIEW);
+        sInt.setData(Uri.parse("smsto:"));
+        sInt.setType("vnd.android-dir/mms-sms");
+        sInt.putExtra("address", dats[2] );
+        sInt.putExtra("sms_body","Hello There !");
+        startActivity(Intent.createChooser(sInt, "Send sms via:"));
+
     }
 }
